@@ -10,8 +10,8 @@ public class GpsInputParser
         mConnection = connection;
         mInsertStatement = 
             connection.prepareStatement("INSERT INTO " + tableName +
-                                        "    (mac, lat, lon, time, full_time, msg_num)" +
-                                        "    VALUES (?, ?, ?, ?, ?, ?)");
+                                        "    (mac, lat, lon, time, msg_num)" +
+                                        "    VALUES (?, ?, ?, ?, ?)");
     }
 
     public void processRecord(String record) throws IllegalArgumentException, SQLException
@@ -57,8 +57,7 @@ public class GpsInputParser
         mInsertStatement.setDouble(2, lat.doubleValue());
         mInsertStatement.setDouble(3, lon.doubleValue());
         mInsertStatement.setDouble(4, time.doubleValue());
-        mInsertStatement.setDouble(5, time.doubleValue());
-        mInsertStatement.setLong(6, msg_num.longValue());
+        mInsertStatement.setLong(5, msg_num.longValue());
         mInsertStatement.execute();
     }
 

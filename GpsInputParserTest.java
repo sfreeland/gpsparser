@@ -19,7 +19,7 @@ public class GpsInputParserTest
                               "  lat       DOUBLE NOT NULL, " +
                               "  lon       DOUBLE NOT NULL, " +
                               "  time      DOUBLE NOT NULL, " +
-                              "  full_time DOUBLE NOT NULL)");
+                              "  full_time DOUBLE)");
     }
 
     @Test
