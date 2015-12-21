@@ -22,6 +22,10 @@ public class GpsInputParser
         // part[0] is leading garbage; part[1] through part[3] are identified by position;
         // subsequent parts are identified by prefix for flexibility
 
+        if (parts.length < 4)
+        {
+            throw new IllegalArgumentException("Too few fields found in record: " + record);
+        }
         Long mac = new Long(parts[1]);
         Long msg_num = new Long(parts[3]);
         Double lat = null, lon = null;
@@ -29,20 +33,23 @@ public class GpsInputParser
         for (int i = 4; i < parts.length; ++i)
         {
             PrefixedField field = new PrefixedField(parts[i]);
-            switch (field.mType)
+            if (field.mType != null)
             {
-            case GPS:
-                String[] subParts = field.mValue.split(";");
-                if (subParts.length != 2)
+                switch (field.mType)
                 {
-                    throw new IllegalArgumentException("Invalid GPS field contents: " + field.mValue);
+                case GPS:
+                    String[] subParts = field.mValue.split(";");
+                    if (subParts.length != 2)
+                    {
+                        throw new IllegalArgumentException("Invalid GPS field contents: " + field.mValue);
+                    }
+                    lat = new Double(subParts[0]);
+                    lon = new Double(subParts[1]);
+                    break;
+                case STR:
+                    time = new Double(field.mValue);
+                    break;
                 }
-                lat = new Double(subParts[0]);
-                lon = new Double(subParts[1]);
-                break;
-            case STR:
-                time = new Double(field.mValue);
-                break;
             }
         }
         if ((lat == null) || (lon == null))
